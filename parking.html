@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parking</title>
+</head>
+<body>
+
+<div id="app">
+    <pre>{{parkings}}</pre>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue@3"></script>
+<script>
+
+
+    const apiURL = "https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_parkings-publics-nantes-disponibilites/records"
+
+    Vue.createApp({
+        data() {
+            return {
+                parkings: [],
+            };
+        },
+
+        created: function (){
+            this.fetchDataPromise();
+        },
+
+        methods: {
+            fetchDataPromise: function (){
+                axios
+                    .get(apiURL)
+                    .then((response) => {
+                        console.log(response.data);
+                        this.parkings = response.data
+                    })
+                    .catch(function (error){
+                        console.log("appel api en erreur")
+                        console.log(error)
+                    })
+            }
+        },
+    }).mount("#app")
+</script>
+
+</body>
+</html>
